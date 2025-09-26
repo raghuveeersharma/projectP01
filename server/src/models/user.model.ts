@@ -1,31 +1,33 @@
-import { model, Schema } from "mongoose"
+import { model, Schema } from "mongoose";
 export enum UserRole {
-  ADMIN = "admin",
-  USER = "user",
-  GUEST = "guest",
+  ADULT = "adult",
+  TEEN = "teen",
+  OLD = "old",
 }
 
-interface IUser{
-    name:String,
-    age:Number,
-    status?:UserRole
+interface IUser {
+  name: String;
+  age: Number;
+  status?: UserRole;
 }
 
-const userSchema = new Schema<IUser>({
-    name:{
-        type:String,
-        required:true
+const userSchema = new Schema<IUser>(
+  {
+    name: {
+      type: String,
+      required: true,
     },
-    age:{
-        type:Number,
-        required:true
+    age: {
+      type: Number,
+      required: true,
     },
-    status:{
-        type:String,
-        enum:Object.values(UserRole)
-    }
-},{timestamps:true})
+    status: {
+      type: String,
+      enum: Object.values(UserRole),
+    },
+  },
+  { timestamps: true }
+);
 
-const User = model("User",userSchema);
+const User = model("User", userSchema);
 export default User;
-
