@@ -4,8 +4,8 @@ import { asyncHandler } from "../utils/asyncHandler";
 import { ApiError } from "../utils/apiError";
 
 export const postUser = asyncHandler(async (req: Request, res: Response) => {
-  const { name, age, status } = req.body;
-  const user = new User({ name, age, status });
+  const { firstName, lastName, age, status } = req.body;
+  const user = new User({ firstName, lastName, age, status });
   await user.save().catch((err) => {
     throw new ApiError(400, "user creation failed");
   });
@@ -50,10 +50,10 @@ export const deleteUser = asyncHandler(
 
 export const updateUser = asyncHandler(async (req: Request, res: Response) => {
   const id = req.params.id;
-  const { name, age, status } = req.body;
+  const { firstName, lastName, age, status } = req.body;
   const user = await User.findByIdAndUpdate(
     id,
-    { name, age, status },
+    { firstName, lastName, age, status },
     { new: true }
   );
   if (!user) {

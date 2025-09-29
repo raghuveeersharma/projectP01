@@ -6,7 +6,8 @@ export enum UserRole {
 }
 
 export interface CreateUserDto {
-  name: string;
+  firstName: string;
+  lastName: string;
   age: number;
   status?: UserRole;
 }
@@ -14,11 +15,12 @@ export interface CreateUserDto {
 export const createUserSchema: JSONSchemaType<CreateUserDto> = {
   type: "object",
   properties: {
-    name: { type: "string", minLength: 3 },
+    firstName: { type: "string", minLength: 3 },
+    lastName: { type: "string", minLength: 3 },
     age: { type: "number" },
     status: { type: "string", enum: Object.values(UserRole), nullable: true },
   },
-  required: ["name", "age"],
+  required: ["firstName", "lastName", "age"],
   additionalProperties: false,
 };
 
