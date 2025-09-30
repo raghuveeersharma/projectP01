@@ -1,6 +1,7 @@
 import express from "express";
 import {
   deleteUser,
+  deleteUsers,
   getUser,
   getUsers,
   postUser,
@@ -11,11 +12,15 @@ import { createUserSchema, paramsSchema } from "../models/user.Schema";
 
 const router = express.Router();
 
-router.route("/user").post(validate(createUserSchema), postUser).get(getUsers);
+router
+  .route("/user")
+  .post(validate(createUserSchema), postUser)
+  .get(getUsers)
+  .delete(deleteUsers);
 router
   .route("/user/:id")
-  .get(getUser, validate(paramsSchema))
   .put(updateUser, validate(paramsSchema))
-  .delete(deleteUser, validate(paramsSchema));
+  .delete(deleteUser, validate(paramsSchema))
+  .get(getUser);
 
 export default router;

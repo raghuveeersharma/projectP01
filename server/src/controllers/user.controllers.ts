@@ -14,14 +14,6 @@ export const postUser = asyncHandler(async (req: Request, res: Response) => {
     .json({ message: `user created successfully ${process.pid}`, user });
 });
 
-export const getUser = asyncHandler(async (req: Request, res: Response) => {
-  const id = req.params.id;
-  const user = await User.findById({ _id: id }).catch(() => {
-    throw new ApiError(400, "no user found for this id");
-  });
-  res.status(200).json({ message: `user found ${process.pid}`, user });
-});
-
 export const getUsers = asyncHandler(async (req: Request, res: Response) => {
   try {
     const users = await User.find().catch(() => {
@@ -64,4 +56,21 @@ export const updateUser = asyncHandler(async (req: Request, res: Response) => {
     throw error;
   }
   res.status(200).json({ message: "user updated successfully", user });
+});
+
+export const deleteUsers = asyncHandler(async (req: Request, res: Response) => {
+  const result = await User.deleteMany({});
+  if (!result.acknowledged) {
+    throw new ApiError(400, "unable to delete all users");
+  }
+  res.status(200).json({ message: "all users deleted successflly!!" });
+});
+
+export const getUser = asyncHandler(async (req: Request, res: Response) => {
+  const id = req.params.id;
+  const userWPosts = await User.findById(id).populate("Blogs");
+  if (!userWPosts) {
+    throw new ApiError(400, "no user found for this id");
+  }
+  res.status(200).json({ message: "here is your user with posts", userWPosts });
 });
